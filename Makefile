@@ -351,11 +351,11 @@ ifneq "$(MAKE_IMPORTS)X" "X"
 endif
 ifeq "$(PKG_KIND)" "lib"
 ifeq "$(OSNAME)" "$(OSX_NAME)"
-	$(CXX) -dynamiclib $(CXXFLAGS_ALL_lib) $(IMPORTS_ALL) -o $@ -dylib $^
+	$(CXX) -dynamiclib $(CXXFLAGS_ALL_lib) -o $@ -dylib $^ $(IMPORTS_ALL) 
 	rm -f $(@D)/$(OPTLEVEL)-$(@F) ; rm -f $(@D)/$(NOPTLEVEL)-$(@F)
 	ln -s $@ $(@D)/$(OPTLEVEL)-$(@F)
 else ifeq "$(OSNAME)" "$(LINUX_NAME)"
-	$(CXX) -shared -Wl,-soname,$(@F) $(CXXFLAGS_ALL_lib) $(IMPORTS_ALL) -o $@ $^ -lc
+	$(CXX) -shared -Wl,-soname,$(@F) $(CXXFLAGS_ALL_lib) -o $@ $^ -lc $(IMPORTS_ALL) 
 	rm -f $(@D)/$(OPTLEVEL)-$(@F) ; rm -f $(@D)/$(NOPTLEVEL)-$(@F)
 	cd $(@D) && ln -s $(@F) $(OPTLEVEL)-$(@F) && cd ..
 else ifeq "$(OSNAME)" "$(WINDOWS_NAME)"
@@ -363,11 +363,11 @@ else ifeq "$(OSNAME)" "$(WINDOWS_NAME)"
 endif
 else ifeq "$(PKG_KIND)" "cmd"
 ifeq "$(OSNAME)" "$(OSX_NAME)"
-	$(CXX) $(CXXFLAGS_ALL_cmd) $(IMPORTS_ALL) -o $@ $^
+	$(CXX) $(CXXFLAGS_ALL_cmd) -o $@ $^ $(IMPORTS_ALL) 
 	rm -f $(@D)/$(OPTLEVEL)-$(@F) ; rm -f $(@D)/$(NOPTLEVEL)-$(@F)
 	ln -s $@ $(@D)/$(OPTLEVEL)-$(@F)
 else ifeq "$(OSNAME)" "$(LINUX_NAME)"
-	$(CXX) $(CXXFLAGS_ALL_cmd) $(IMPORTS_ALL) -o $@ $^
+	$(CXX) $(CXXFLAGS_ALL_cmd) -o $@ $^ $(IMPORTS_ALL) 
 	rm -f $(@D)/$(OPTLEVEL)-$(@F) ; rm -f $(@D)/$(NOPTLEVEL)-$(@F)
 	cd $(@D) && ln -s $(@F) $(OPTLEVEL)-$(@F) && cd ..
 else ifeq "$(OSNAME)" "$(WINDOWS_NAME)"
