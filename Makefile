@@ -116,6 +116,11 @@
 #	should be smashed on the way in?  Dubito - ajd
 #
 ####################
+#  Wenqi Added options
+#  GSL_INCL_DIR: header files of gsl, e.g., GSL_INCL_DIR=/mnt/scratch/wenqi/local/include/
+#  GSL_LIB_DIR: lib directory to gsl, e.g., GSL_LIB_DIR=/mnt/scratch/wenqi/local/lib/ 
+#  Example of build:
+#    make GSL_INCL_DIR=/mnt/scratch/wenqi/local/include/ GSL_LIB_DIR=/mnt/scratch/wenqi/local/lib/ 
 
 #
 # Directory structure definitions
@@ -305,16 +310,29 @@ LIB_IMPORTS_l := $(patsubst -llib%.$(LIB_EXT),-l%,$(LIB_IMPORTS_l))
 LIB_IMPORTS_l += $(patsubst %,-l%,$(IMPORT_STD))
 LIB_IMPORTS_l += $(patsubst %,-framework %,$(IMPORT_FWKS))
 
-IMPORTS_ALL := $(OBJ_IMPORTS) $(LIB_IMPORTS_L) $(LIB_IMPORTS_l)
+# Wenqi: GSL_LIB_DIR
+ifndef GSL_LIB_DIR
+IMPORTS_ALL := $(OBJ_IMPORTS) $(LIB_IMPORTS_L) $(LIB_IMPORTS_l) 
+else
+IMPORTS_ALL := $(OBJ_IMPORTS) $(LIB_IMPORTS_L) -L$(GSL_LIB_DIR) $(LIB_IMPORTS_l) 
+endif
 $(info IMPORTS_ALL = $(IMPORTS_ALL))
 
+ifndef GSL_INCL_DIR
 CPPFLAGS_ALL_lib := -I$(HDR) -I$(CHK_HDR) \
 	-I.. $(INCLUDES_FROM_PKGS) $(INCLUDES_FROM_DIRS) \
 	-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS $(CPPFLAGS)
-
 CPPFLAGS_ALL_cmd := -I$(HDR) -I$(CHK_HDR) \
 	-I.. $(INCLUDES_FROM_PKGS) $(INCLUDES_FROM_DIRS) \
 	-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS $(CPPFLAGS)
+else
+CPPFLAGS_ALL_lib := -I$(HDR) -I$(CHK_HDR) -I$(GSL_INCL_DIR) \
+	-I.. $(INCLUDES_FROM_PKGS) $(INCLUDES_FROM_DIRS) \
+	-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS $(CPPFLAGS)
+CPPFLAGS_ALL_cmd := -I$(HDR) -I$(CHK_HDR) -I$(GSL_INCL_DIR) \
+	-I.. $(INCLUDES_FROM_PKGS) $(INCLUDES_FROM_DIRS) \
+	-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS $(CPPFLAGS)
+endif
 
 CPPFLAGS_ALL := $(CPPFLAGS_ALL_$(PKG_KIND))
 $(info CPPFLAGS_ALL = $(CPPFLAGS_ALL))
