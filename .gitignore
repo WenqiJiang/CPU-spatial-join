@@ -2,3 +2,6 @@ TIMESTAMP-debug
 TIMESTAMP-opt
 bin/
 obj/
+traces/points/
+traces/query_update/
+traces/gauss

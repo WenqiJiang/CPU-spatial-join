@@ -11,6 +11,9 @@ function docmd() {
     fi
 }
 
+mkdir -p traces/points
+mkdir -p traces/query_update
+mkdir -p traces/gauss
 
 # ----------------------------------------------------------------------------
 # Scale num points small. 
