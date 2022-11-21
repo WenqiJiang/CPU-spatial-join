@@ -58,25 +58,25 @@ mkdir -p traces/gauss
 
 
 
-# for t in 1 2 3
-# do
-#     for p in 10000 30000 50000 70000 90000
-#     do
-#  	max=$(echo "sqrt($p. * 10000.0)" | bc)
-#  	docmd "./bin/datagen.exec uniform --outfile='traces/points/scalepoints${p}trial${t}.dat' --binary=true --int=false --numPoints=$p --numTicks=100 --maxX=$max --maxY=$max --probQuery=0.5 --probUpdate=0.5 --qMin=400 --qMax=400 --maxSpeed=200 --numSpeeds=20"
-#     done
-# done
-
-
-
 for t in 1 2 3
 do
-    for p in 100000 300000 500000 700000 900000
+    for p in 10000 30000 50000 70000 90000
     do
-        max=$(echo "sqrt($p. * 100000.0)" | bc)
-        docmd "./bin/datagen.exec uniform --outfile='traces/points/scalepoints${p}trial${t}.dat' --binary=true --int=false --numPoints=$p --numTicks=100 --maxX=$max --maxY=$max --probQuery=0.5 --probUpdate=0.5 --qMin=4000 --qMax=4000 --maxSpeed=2000 --numSpeeds=200"
+	max=$(echo "sqrt($p. * 10000.0)" | bc)
+  	docmd "./bin/datagen.exec uniform --outfile='traces/points/scalepoints${p}trial${t}.dat' --binary=true --int=false --numPoints=$p --numTicks=100 --maxX=$max --maxY=$max --probQuery=0.5 --probUpdate=0.5 --qMin=400 --qMax=400 --maxSpeed=200 --numSpeeds=20"
     done
 done
+
+
+
+# for t in 1 2 3
+# do
+#    for p in 100000 300000 500000 700000 900000
+#    do
+#         max=$(echo "sqrt($p. * 100000.0)" | bc)
+#         docmd "./bin/datagen.exec uniform --outfile='traces/points/scalepoints${p}trial${t}.dat' --binary=true --int=false --numPoints=$p --numTicks=100 --maxX=$max --maxY=$max --probQuery=0.5 --probUpdate=0.5 --qMin=4000 --qMax=4000 --maxSpeed=2000 --numSpeeds=200"
+#     done
+# done
 
 
 

@@ -15,11 +15,13 @@
 
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 #include <vector>
 #include <map>
 #include <algorithm>
 #include <cstring>
 #include <stdexcept>
+#include <string>
 #include <dirent.h>
 #include "TimingResult.h"
 #include "IndexLog.h"
@@ -27,6 +29,7 @@
 
 using namespace PSimIndex;
 using namespace DBUtl;
+namespace fs = std::filesystem;
 
 namespace /* anon */{
 
@@ -391,6 +394,27 @@ const char* plotNames[] = { "Avg", "Breakdown", "Tick" };
 
 }
 
+// Wenqi: get dir path
+void SplitFilename (const std::string& str)
+{
+  size_t found;
+  std::cout << "Splitting: " << str << std::endl;
+  found=str.find_last_of("/\\");
+  std::cout << " folder: " << str.substr(0,found) << std::endl;
+  std::cout << " file: " << str.substr(found+1) << std::endl;
+}
+
+std::string GetFilePath (const std::string& str)
+{
+  size_t found;
+  std::cout << "Splitting: " << str << std::endl;
+  found=str.find_last_of("/\\");
+  std::cout << " folder: " << str.substr(0,found) << std::endl;
+  std::cout << " file: " << str.substr(found+1) << std::endl;
+  return str.substr(0,found);
+}
+
+
 int main(int argc, char *argv[]) {
 
   Log::open("-"); //for asserts;
@@ -456,9 +480,14 @@ int main(int argc, char *argv[]) {
     } else if ((v = suffixAfterMatch(arg, "--dir=")) != 0) {
       dirName = v;
       dirSet = true;
+      system((std::string("mkdir -p ") + std::string(dirName)).c_str());
+      // fs::create_directory(dirName);
     } else if ((v = suffixAfterMatch(arg, "--outfile=")) != 0) {
       outfileSet = true;
       outfileName = v;
+      std::string path = GetFilePath(outfileName);
+      system((std::string("mkdir -p ") + std::string(path)).c_str());
+      // fs::create_directory(path);
     } else if ((v = suffixAfterMatch(arg, "--indexName=")) != 0) {
       indexName = v;
       indexNameSet = true;
